@@ -43,16 +43,16 @@ momentum[i].z *=mass[i];
     delete[] mass;
     delete[] r;
 }
-
-void simulate(string outputFileName)
+//HARD CODED FIX LATER !!!!!
+void simulate()
 {
-//This file will contain the position coords of M2 (Earth)
-ofstream earth(outputFileName);
-ofstream sun("sun.txt");
-sun << "Position Vector Of Sun Orbiting with Earth" << endl;
-sun << position[0].x << ", " << position[0].y << ", " << position[0].z << endl; // Initial Position of SUN 
-earth << "Position Vector Of Earth Orbiting around Sun" << endl;
-earth << position[1].x << ", " << position[1].y << ", " << position[1].z << endl; //Earth
+//This file will contain the position coords of M2 (star)
+ofstream star("Star.txt");
+ofstream blackhole("Blackhole.txt");
+blackhole << "Position Vector Of blackhole Orbiting with star" << endl;
+blackhole << position[0].x << ", " << position[0].y << endl;  
+star << "Position Vector Of star Orbiting around blackhole" << endl;
+star << position[1].x << ", " << position[1].y << endl; 
 for(int i = 0; i < amount;i++)
 {
     //Computed distance between r1 and r2 
@@ -62,10 +62,10 @@ for(int i = 0; i < amount;i++)
     force[1] = scaleVector((-G*mass[0]*mass[1])/pow(Magnitude(r[1]),3),r[1]); //Computes Force_21
     momentum[0] = addVector(momentum[0],scaleVector(delta_t,force[0])); //Computes P'_1 (New Momentum)
     momentum[1] = subVector(momentum[1],scaleVector(delta_t,force[0])); //Computes P'_2 (New Momentum)
-    position[0] = addVector(position[0],scaleVector(delta_t/mass[0],momentum[0])); //Computes R'1 SUN
-    position[1] = addVector(position[1],scaleVector(delta_t/mass[1],momentum[1])); //Computes R'2 Earth
-    earth << position[1].x << ", " << position[1].y << ", " << position[1].z << endl;
-    sun << position[0].x << ", " << position[0].y << ", " << position[0].z << endl;
+    position[0] = addVector(position[0],scaleVector(delta_t/mass[0],momentum[0])); //Computes R'1 star
+    position[1] = addVector(position[1],scaleVector(delta_t/mass[1],momentum[1])); //Computes R'2 blackhole
+    star << position[1].x << ", " << position[1].y << endl;
+    blackhole << position[0].x << ", " << position[0].y << endl;
 }
 }
 
@@ -124,10 +124,9 @@ int amount; //Amount to do loop
 
 int main()
 {
-string FileName = "input.txt";
-string output = "Earth.txt";
+string FileName = "o.txt";
 Project obj(FileName);
-obj.simulate(output);
+obj.simulate();//Simulates A Star orbiting a blackhole
 
 return 0;
 }
