@@ -19,10 +19,34 @@ Project()
 {
 cout << "NO FILE INPUTTED" << endl;
 }
-Project(ifstream file)
+Project(string name)
 {
+ifstream file(name);
 file >> G >> num_of_n >> delta_t;
+//Allocating Memory needed 
+force = new vec[num_of_n];
+momentum = new vec[num_of_n];
+position = new vec[num_of_n];
+mass = new double[num_of_n];
+for(int i = 0; i < num_of_n; i++)
+{
+file >> mass[i];
+file >> position[i].x >> position[i].y >> position[i].z;
+file >> momentum[i].x >> momentum[i].y >> momentum[i].z;
+momentum[i].x *=mass[i];
+momentum[i].y *=mass[i];
+momentum[i].z *=mass[i];
 }
+}
+~Project()
+{
+    //Cleaning up heap 
+    delete[] force;
+    delete[] momentum;
+    delete[] position;
+    delete[] mass;
+}
+
 double Magnitude(vec v)
 {
 return sqrt(v.x *v.x + v.y*v.y + v.z*v.z);
@@ -53,29 +77,26 @@ cout << "Y component of Vector: " << v.y << endl;
 cout << "Z component of Vector: " << v.z << endl; 
 }
 private:
-vec force_12; //Force M1 applies to M2
-vec force_21; //Force M2 applies to M1
-vec p1; //p1 is momentum of M1
-vec p2; //p2 is momentum of M2
-vec r1; //r1 is the postion vector of M1 
-vec r2; //r2 is the postion vector of M2
+/*
+Side Note 
+f12 = force[0]          p1 = momentum[0]        r1 = position[0] DESCRIBES MASS 1       m1 = mass[0]
+f21 = force[1]          p2 = momentum[1]        r2 = position[1] DESCRIBES MASS 2       m2 = mass[1]
+*/
+vec *force; //This force pointer will point into a array of forces needed 
+vec *momentum; //This momentum pointer will point into an array of momentums needed 
+vec *position; //This position pointer will point into an array of positions needed 
 vec r;  //r is the postion vector of the distance between R1 to R2 
-double m1; //This is the mass of m1 
-double m2; //This is the mass of m2
+double *mass; //This Mass pointer will point into an array of masses needed 
 double delta_t;
 double G; //Newtons gravitational const
-double num_of_n;
+int num_of_n;
 };
+
 int main()
 {
-vec Pos_m1;
-Pos_m1.x = 23;
-Pos_m1.y = 12;
-Pos_m1.z = 0;
-Project obj;
+string FileName = "input.txt";
+Project obj(FileName);
 
-Pos_m1 = obj.getUnit(Pos_m1);
-obj.PrintVector(Pos_m1);
 
 return 0;
 }
