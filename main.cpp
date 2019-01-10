@@ -58,7 +58,7 @@ for(int i = 0; i < amount;i++)
     //Computed distance between r1 and r2 
     r[0] = subVector(position[1] ,position[0]); //Computes r_12
     r[1] = subVector(position[0] , position[1]); //Computes r_21
-    force[0] = scaleVector((-G*mass[0]*mass[1])/pow(Magnitude(r[0]),3),r[0]); //Computes Force_12
+    force[0] = scaleVector((G*mass[0]*mass[1])/pow(Magnitude(r[0]),3),r[0]); //Computes Force_12
     force[1] = scaleVector((-G*mass[0]*mass[1])/pow(Magnitude(r[1]),3),r[1]); //Computes Force_21
     momentum[0] = addVector(momentum[0],scaleVector(delta_t,force[0])); //Computes P'_1 (New Momentum)
     momentum[1] = subVector(momentum[1],scaleVector(delta_t,force[0])); //Computes P'_2 (New Momentum)
@@ -124,7 +124,7 @@ int amount; //Amount to do loop
 
 int main()
 {
-string FileName = "o.txt";
+string FileName = "input.txt";
 Project obj(FileName);
 obj.simulate();//Simulates A Star orbiting a blackhole
 
